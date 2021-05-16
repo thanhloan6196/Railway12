@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS GroupAccount;
 CREATE TABLE GroupAccount(
    GroupID 				MEDIUMINT UNSIGNED,
    AccountID 			MEDIUMINT UNSIGNED,
-   JoinDate 			DATETIME,
+   JoinDate 			DATETIME DEFAULT NOW(),
    PRIMARY KEY (GroupID, AccountID),
    FOREIGN KEY (GroupID) REFERENCES `Group`(GroupID),
    FOREIGN KEY (AccountID) REFERENCES `Account`(AccountID)
@@ -103,5 +103,89 @@ CREATE TABLE ExamQuestion(
 );
 
 
+-- insert data
 
+INSERT INTO Department(DepartmentName)
+VALUES 	('DEV'),
+		('Sale'),
+		('MKT');
 
+INSERT INTO `Position`(PositionName)
+VALUES 	('Dev'),
+		('Test'),
+		('Scrum Master'),
+        ('PM');
+        
+INSERT INTO `Account` (Email, Username, FullName, DepartmentID, PositionID)
+VALUES	('thanhpc@gmail.com', 'thanhvc', 'Vu Cong Thanh', 1, 1),
+		('thanhpc2@gmail.com', 'thanhvc2', 'Vu Cong Thanh2', 1, 2),
+        ('Nguyenvana@gmail.com', 'NguyenvanA', 'Nguyen Van A', 2, 3),
+        ('Hang.pham@gmail.com', 'Phamhang', 'Pham Thuy Hang', 3, 4),
+        ('daoloan6196@gmail.com', 'LoanDao', 'Dao Thi Thanh Loan', 2, 4),
+        ('baoquyen123@gmail.cpm', 'Baoquyen', ' Nguyen Bao Quyen', 3, 4),
+        ('phuonglinhvu@gmail.com', 'Vuphuonglinh', 'Vu Phuong Linh', 3, 2),
+        ('duy.nguyen@gmail.com', 'duynguyen', 'Nguyen Van Duy', 3, 3),
+        ('nam.dao@gmail.com', 'namdao', 'Dao Tien Nam', 3, 2),
+        ('hieu.nguyen@gmail.com', 'nguyenvanhieu', 'Nguyen Van Hieu', 1, 4);
+
+INSERT INTO  `Group` (GroupName, CreatorID)  
+VALUES	('Group_1', 1),
+		('Group_2', 2),
+        ('Group_3', 3),
+		('Group_4', 10),
+        ('Group_5', 4),
+		('Group_6', 5);
+        
+INSERT INTO GroupAccount ( GroupID, AccountID)
+VALUES	(1, 1),
+		(1, 2),
+        (1, 3),
+        (1, 4),
+        (1, 5),
+        (1, 6),
+        (1, 7),
+        (1, 8),
+        (1, 9),
+        (1, 10),
+        (3, 1),
+		(3, 2),
+        (3, 3),
+        (3, 4),
+        (3, 5),
+        (3, 6),
+        (3, 7),
+        (3, 8),
+        (3, 9),
+        (3, 10),
+        (4, 1),
+		(4, 2),
+        (4, 3),
+        (4, 4),
+        (4, 5),
+        (4, 6),
+        (4, 7),
+        (4, 8),
+        (4, 9),
+        (4, 10),
+		(5, 1),
+		(5, 2),
+        (5, 3),
+        (5, 4),
+        (5, 5),
+        (5, 6),
+        (5, 7),
+        (5, 8),
+        (5, 9),
+        (5, 10),
+        (6, 1),
+		(6, 2),
+        (6, 3),
+        (6, 4),
+        (6, 5),
+        (6, 6),
+        (6, 7),
+        (6, 8),
+        (6, 9),
+        (6, 10);
+        
+   
