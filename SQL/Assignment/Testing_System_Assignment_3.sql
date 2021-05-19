@@ -15,10 +15,36 @@ WHERE
     DepartmentName = 'Sale';
     
 -- Question 4: lấy ra thông tin account có full name dài nhất
--- Ko phải làm
+
+SELECT 
+    *
+FROM `account`
+WHERE
+    LENGTH(FullName) = (SELECT MAX(LENGTH(FullName))
+						FROM `account`);
 
 -- Question 5: Lấy ra thông tin account có full name dài nhất và thuộc phòng ban có id= 3
--- Ko phải làm
+
+SELECT * 
+FROM `account` 
+WHERE LENGTH(fullname) = (SELECT MAX(length(fullname))
+						FROM `account` 
+						WHERE DepartmentID = 3) AND DepartmentID = 3;
+                        
+-- cach 2
+
+SELECT * FROM 
+	( SELECT * FROM `account` WHERE DepartmentID = 3) AS L
+WHERE 
+	length(FullName) = (SELECT MAX(length(fullname)) FROM ( SELECT * FROM `account` WHERE DepartmentID = 3) AS L);
+						
+-- cách 3
+WITH `cte_dep3` (AccountID, Email, Username, FullName, DepartmentID, PositionID, CreateDate)
+AS (SELECT * FROM `Account` WHERE DepartmentID = 3)
+SELECT * FROM `cte_dep3`
+WHERE LENGTH(FullName) = (SELECT MAX(LENGTH(FullName)) FROM `cte_dep3`)
+ORDER BY Fullname ASC;                   
+
 
 -- Question 6: Lấy ra tên group đã tham gia trước ngày 20/12/2019
 SELECT 
