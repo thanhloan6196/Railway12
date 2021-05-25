@@ -67,7 +67,7 @@ ORDER BY q.CategoryID;
 -- Question 7: Thông kê mỗi Question được sử dụng trong bao nhiêu Exam
 SELECT q.QuestionID, q.Content, COUNT( q.QuestionID) AS SoLanSuDung
 FROM question q
-JOIN examquestion eq 
+LEFT JOIN examquestion eq 
 ON q.QuestionID = eq.QuestionID
 GROUP BY q.QuestionID;
 
