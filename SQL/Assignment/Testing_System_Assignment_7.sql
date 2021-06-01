@@ -113,11 +113,15 @@ BEGIN
 		OLD.Email = 'admin@gmail.com' THEN
 		SIGNAL SQLSTATE '12345'
 		SET MESSAGE_TEXT = " This is Admin's account, cannot delete";
-	ELSE 
-		DELETE FROM exam WHERE CreatorID = v_accountID;
-        DELETE FROM `Group` WHERE CreatorID = v_accountID;
+	ELSEIF OLD.Email != 'admin@gmail.com' THEN
+		-- DELETE FROM exam WHERE CreatorID = v_accountID;
+        -- DELETE FROM `Group` WHERE CreatorID = v_accountID;
+        -- DELETE FROM `Groupaccount` WHERE AccountID = v_accountID;
+        -- DELETE FROM `Question` WHERE CreatorID = v_accountID;
         DELETE FROM `Groupaccount` WHERE AccountID = v_accountID;
-        DELETE FROM `Question` WHERE CreatorID = v_accountID;
+        UPDATE `exam` SET CreatorID = NULL WHERE CreatorID = v_accountID;
+        UPDATE `Group` SET CreatorID = NULL WHERE CreatorID = v_accountID;
+        UPDATE `Question` SET CreatorID = NULL WHERE CreatorID = v_accountID;
     END IF;
     
 END $$
@@ -125,6 +129,8 @@ DELIMITER ;
 
 DELETE FROM `account`
 WHERE Email = 'admin@gmail.com'; -- Khi xoa hien loi Error Code: 1644.  This is Admin's account, cannot delete
+DELETE FROM `account`
+WHERE Email = 'pmattys71@exblog.jp'; 
 
 DELETE FROM `account`
 WHERE AccountID = 2;
@@ -168,19 +174,26 @@ BEGIN
     DECLARE v_Rightanswer_no MEDIUMINT UNSIGNED;
     
 	SELECT COUNT(AnswerID) INTO v_answer_no
-	FROM answer WHERE QuestionID = NEW.QuestionID
-	GROUP BY QuestionID;
+	FROM answer WHERE QuestionID = NEW.QuestionID;
     
     SELECT COUNT(AnswerID) INTO v_Rightanswer_no
 	FROM answer 
-    WHERE (QuestionID = NEW.QuestionID AND isCorrect =1)
-	GROUP BY QuestionID;
-    
-    IF v_answer_no >=4 OR ( v_answer_no <4 AND v_Rightanswer_no >=2 AND NEW.isCorrect =1) THEN
+    WHERE (QuestionID = NEW.QuestionID AND isCorrect =1);
+	    
+   /* IF v_answer_no >=4 OR ( v_answer_no <4 AND v_Rightanswer_no >=2 AND NEW.isCorrect =1) THEN
     SIGNAL SQLSTATE '12345'
     SET MESSAGE_TEXT = 'Khong the them do ko dung cau hinh';
+    END IF; */
+    
+    IF v_answer_no >=4 THEN
+    SIGNAL SQLSTATE '12345'
+    SET MESSAGE_TEXT = 'Da co 4 cau tra loi';
     END IF;
-
+   
+	IF v_Rightanswer_no >= 2 THEN
+    SIGNAL SQLSTATE '12345'
+    SET MESSAGE_TEXT = 'Da co 2 cau tra loi dung';
+    END IF;
 END $$
 DELIMITER ;
 
@@ -191,7 +204,24 @@ VALUES ('259', 'Answers VTI 259', '9', b'0');
 Nếu người dùng nhập vào gender của account là nam, nữ, chưa xác định
 Thì sẽ đổi lại thành M, F, U cho giống với cấu hình ở database */
 
--- ko thay field Gender?
+DROP TRIGGER IF EXISTS  check_gender;
+DELIMITER $$
+CREATE TRIGGER check_gender
+BEFORE INSERT ON `account`
+FOR EACH ROW
+BEGIN
+	IF NEW.Gender = 'Nam' THEN
+    SET NEW.Gender = 'M';
+    
+	ELSEIF NEW.Gender = 'Nu' THEN
+    SET NEW.Gender = 'F';
+    
+    ELSEIF NEW.Gender = 'chua xac dinh' THEN
+    SET NEW.Gender = 'U';
+    END IF;
+    
+END $$
+DELIMITER ;
 
 
 /*Question 9: Viết trigger không cho phép người dùng xóa bài thi mới tạo được 2 ngày */
