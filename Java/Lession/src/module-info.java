@@ -1,0 +1,2 @@
+module Lession_2 {
+}
