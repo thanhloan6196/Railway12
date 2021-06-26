@@ -20,7 +20,7 @@ public class ProgramLesson3 {
 
 		// Cau 3:
 
-		System.out.println(" Cac so chia het cho 7 nhung khong la boi so cua 5 va nam trong doan 10 vĂ  200 la: ");
+		System.out.println(" Cac so chia het cho 7 nhung khong la boi so cua 5 va nam trong doan 10 va 200 la: ");
 		soCanTim();
 
 		// Cau 4:
@@ -70,7 +70,7 @@ public class ProgramLesson3 {
 		}
 	}
 
-//		4 - Hãy viết chương trình tính tổng các chữ số của một số nguyên bất kỳ
+//		4 - Viet chuong trinh tinh tong cac chu so cua 1 so
 
 	public static int tongCacChuSo(int x) {
 		int tong, soDu;
@@ -85,7 +85,7 @@ public class ProgramLesson3 {
 		return tong;
 	}
 
-//	5 - Viết chương trình giải phương trình bậc 2
+//	5 - Viet chuong trinh giai PTB2:
 
 	// a*x^2 + b*x + c = 0
 
@@ -117,7 +117,8 @@ public class ProgramLesson3 {
 
 	}
 
-//	6 - Viết chương trình đăng nhập tài khoản, cho phép nhập vào username và password, nếu nhập đúng thông báo đăng nhập thành công
+//	6 - Viet chuong trinh dang nhap vao tai khoan, cho nhap vao username va password,
+//		neu nhap thanh cong bao dang nhap thanh cong
 
 	public static void loginAccount() {
 
